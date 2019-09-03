@@ -18,27 +18,27 @@ Desenvolver páginas seguindo um modelo de design e obter dados a partir de uma 
 
 - Implemente o campo de pesquisa para que o usuário busque por um repositório. O dashboard funcionará a partir do repositório pesquisado. Repositórios sugeridos: react, vue.
 
-### 2. Conectar à API do Github
+### 3. Conectar à API do Github
 
 - Conecte à API do Github e liste os commits do repositório pesquisado.
 - Listar os commits em uma tabela, dispondo as informações de acordo com o documento.
 
-### 3. Implementando gráficos na aba Commits
+### 4. Implementando gráficos na aba Commits
 
 - Implemente um gráfico de linha que liste a quantidade de commits do repositório ao longo do tempo. Utilize o gráfico Commits Over Time como exemplo.
 - Implemente um gráfico de barra que liste o top 10 de usuários que mais fizeram commits ao longo do tempo. Utilize o gráfico Top 10 Users by Commit como exemplo.
 
-### 4. Implementando gráficos na aba Pull Requests
+### 5. Implementando gráficos na aba Pull Requests
 
 - Desenvolva o gráfico de barras que liste os pull requests e agrupe-os por status (opened, closed e merged).
 - Crie uma tabela que liste todos os pull requests do repositório.
 
-### 5. Implementando gráficos na aba Issues
+### 6. Implementando gráficos na aba Issues
 
-- Desenvolva um gráfico de pizza para listar a porcentagem de issues abertas e fechadas.
+- Desenvolva um gráfico de pizza para listar a porcentagem de issues abertas, fechadas e reabertas.
 - Desenvolva uma tabela para listar todas as issues do repositório.
 
-### 6. Implementando paginação
+### 7. Implementando paginação
 
 - Implemente a paginação em todos os gráficos desenvolvidos.
 - Implemente a paginação e ordenação em todas as tabelas criadas.
