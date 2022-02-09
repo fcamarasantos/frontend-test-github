@@ -1,3 +1,4 @@
+import { Sidebar } from '../Sidebar'
 import { Container, Content } from './styles'
 
 export function Header(){
@@ -5,6 +6,7 @@ export function Header(){
     <Container>
       <Content>
         <h1>Github Explorer</h1>
+        <Sidebar />
       </Content>
     </Container>
   )
