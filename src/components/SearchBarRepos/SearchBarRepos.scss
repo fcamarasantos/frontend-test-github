@@ -1,0 +1,48 @@
+@import '../../sass-variables/variables.scss';
+
+.searchArea{
+    display: flex;
+    background-color: $primary-color;
+    
+    border-radius: 20px;
+    padding: 20px;
+
+    *{
+        color: $my-white-color; 
+    }
+
+    form{
+    
+        .searchTextArea{
+            gap: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .serach-btn{
+            border: none;
+            background-color: $my-white-color;
+            color: $my-black-color;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+
+        .row{
+            margin-bottom: 0;
+        }
+
+        .serach-text-input{
+            border-color: $my-white-color;
+            min-width: 500px;
+
+            &:focus{
+                border-color: rgba($my-white-color, 0.6) !important;
+            }
+        }
+
+        .serach-text-input:focus{
+            background-color: transparent;
+        }
+    }
+}

@@ -1,65 +1,70 @@
-### FCamara 🚀
-*"Queremos ser como uma árvore, 
-  crescer um pouco todos os dias e tentar tocar o céu, 
-  sem perder a solidez de nossas raízes."*
-Conheça: www.fcamara.com.br
+# Getting Started with Create React App
 
-## Teste para vaga de Desenvolvedor Front-end
-Desenvolver páginas seguindo um modelo de design e obter dados a partir de uma API.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Tarefas
+## Available Scripts
 
-### 1. Desenvolva o esqueleto da aplicação
+In the project directory, you can run:
 
-- Desenvolva o cabeçalho, sidebar e área de conteúdo.
-- Crie a estrutura de abas e faça a navegação entre elas.
+### `npm start`
 
-### 2. Implementando pesquisa
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-- Implemente o campo de pesquisa para que o usuário busque por um repositório. O dashboard funcionará a partir do repositório pesquisado. Repositórios sugeridos: react, vue.
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-### 3. Conectar à API do Github
+### `npm test`
 
-- Conecte à API do Github e liste os commits do repositório pesquisado.
-- Listar os commits em uma tabela, dispondo as informações de acordo com o documento.
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### 4. Implementando gráficos na aba Commits
+### `npm run build`
 
-- Implemente um gráfico de linha que liste a quantidade de commits do repositório ao longo do tempo. Utilize o gráfico Commits Over Time como exemplo.
-- Implemente um gráfico de barra que liste o top 10 de usuários que mais fizeram commits ao longo do tempo. Utilize o gráfico Top 10 Users by Commit como exemplo.
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
 
-### 5. Implementando gráficos na aba Pull Requests
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
 
-- Desenvolva o gráfico de barras que liste os pull requests e agrupe-os por status (opened, closed e merged).
-- Crie uma tabela que liste todos os pull requests do repositório.
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### 6. Implementando gráficos na aba Issues
+### `npm run eject`
 
-- Desenvolva um gráfico de pizza para listar a porcentagem de issues abertas, fechadas e reabertas.
-- Desenvolva uma tabela para listar todas as issues do repositório.
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-### 7. Implementando paginação
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-- Implemente a paginação em todos os gráficos desenvolvidos.
-- Implemente a paginação e ordenação em todas as tabelas criadas.
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-## Requisitos
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-- Utilizar uma das seguintes bibliotecas CSS: Bulma, Bootstrap ou  Materialize.
-- Seguir as definições de design listadas no documento.
-- Utilizar um dos seguintes frameworks de desenvolvimento web: Angular, React ou Vue.js.
-- Utilizar ao menos 3 features do ES6+ e escrever no README o porquê você as utilizou.
-- Utilizar D3.js para o desenvolvimento dos gráficos.
+## Learn More
 
-## Tarefas bônus
-- Utilizar um pré-compilador CSS (SASS, LESS).
-- Implementar testes unitários.
-- Utilizar uma ferramenta para fazer showcase de componentes isolados (Storybook.js, Styleguidist).
-- Realizar o deploy da sua solução no Heroku ou alguma outra plataforma de hosting.
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
-## Submissão
-- Crie um fork do teste para acompanharmos o seu desenvolvimento através dos seus commits.
-- Recomendamos a criação de pull request para cada tarefa, mantendo a master apenas com versões estáveis.
+To learn React, check out the [React documentation](https://reactjs.org/).
 
-## Obrigado!
-Agradecemos sua participação no teste. Boa sorte! 😄
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
