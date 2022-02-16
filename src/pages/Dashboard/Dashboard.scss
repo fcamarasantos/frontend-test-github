@@ -1,0 +1,20 @@
+.Dashboard-container{
+    header{
+        display: flex;
+        flex-direction: column;
+        gap: 13px;
+        padding: 16px 0px;
+
+        .repositiory-name{
+            font-size: 30px;
+            font-weight: 500;
+            margin: 0;
+        }
+
+        .owner-name{
+            margin: 0;
+            font-size: 20px;
+            font-weight: 400;
+        }
+    }
+}
