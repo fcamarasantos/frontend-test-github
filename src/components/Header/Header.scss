@@ -1,7 +1,31 @@
 @import "../../sass-variables/variables.scss";
 
 .main-header{
-    height: 80px;
+    // height: 80px;
     width: 100%;
     background-color: $my-black-color;
+    // padding: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    .menu-icon{
+        font-size: 30px;
+    }
+
+    .sidenav-trigger{
+        display: flex !important;
+    }
+
+    .search-nav-link{
+        display: flex;
+        flex-wrap: nowrap;
+        gap: 8px;
+    }
+
+    .main-title{
+        color: #ffffff;
+        font-size: 32px;
+        margin: 0;
+    }
 }

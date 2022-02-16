@@ -3,13 +3,14 @@ import { Link } from 'react-router-dom'
 import RoundImageProfile from '../RoundImageProfile/RoundImageProfile'
 import './ProfileCard.scss'
 
-function ProfileCard({title, subtitle, issuesNumber, forksNumber, description, img, link}) {
+function ProfileCard({title, subtitle, issuesNumber, forksNumber, description, img, link, item}) {
   return (
-      <Link to={link}>
+      <Link to={link} state={{item: item}}>
         <div className='profileCardConatiner'>
-            <header></header>
-            <div className='my-card-body'>
+            <header>
                 {img ? <RoundImageProfile src={img} size={100} className='profile-img'/> : ''}
+            </header>
+            <div className='my-card-body'>
                 <div className='titles'>
                     <h3 className='my-card-title'>{title}</h3>
                     <p className='my-card-subtitle'>{subtitle}</p>

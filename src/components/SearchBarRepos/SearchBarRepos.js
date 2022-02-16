@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { getRepoList } from '../../requests/getRepoList/getRepoList';
 import './SearchBarRepos.scss';
 
-function SearchBarRepos({setReposData}) {
+function SearchBarRepos({setReposData, paginationNum, ...props}) {
 
     const [inputData, setInputData] = useState('');
 
@@ -11,13 +11,13 @@ function SearchBarRepos({setReposData}) {
     }
 
     const searchRepoList = async (query) => {
-        let repoList = await getRepoList(`${query} in:name`, {per_page: 20});
-        setReposData(repoList.items);
+        let repoList = await getRepoList(`${query} in:name`, {per_page: props.resultsQuantity, page:1});
+        setReposData(repoList);
     }
 
     const searchHandler = (e) => {
         e.preventDefault();
-
+        props.setInputquery(inputData);
         searchRepoList(inputData)
     }
 
