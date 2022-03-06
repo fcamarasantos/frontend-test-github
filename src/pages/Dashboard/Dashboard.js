@@ -21,7 +21,6 @@ function Dashboard() {
       };
 
       const { item } = location.state;
-      console.log(item)
 
       setQueryData(() => {
         setContent(<Home data={item}></Home>);
@@ -56,7 +55,6 @@ function Dashboard() {
  
 
     const navItemClicked = (item) => {
-      console.log(item)
       setContent(item.component)
     }
 

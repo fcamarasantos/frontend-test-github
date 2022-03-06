@@ -1,0 +1,27 @@
+.barChartConatiner{
+    // border: 1px solid black;
+    margin-left: 40px;
+    overflow: visible;
+
+   rect{
+       fill: crimson;
+   }
+
+   .path{
+    shape-rendering: crispEdges;
+   }
+
+   .line-chart-xaxis{
+       .tick text{
+           
+        fill: rgb(0, 0, 0);
+
+        font-size: 15px;
+        
+        transform: translate(-40px, 20px)  rotate(330deg) ;
+        max-width: 17ch;
+        overflow: hidden;
+        text-overflow: ellipsis;
+       }
+   }
+}

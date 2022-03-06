@@ -1,60 +1,68 @@
 import React, { useEffect, useState } from 'react'
-import DatOverTimeD3 from '../../../components/ChartsD3/dataOverTimeD3/DatOverTimeD3';
-import LineChart from '../../../components/ChartsD3/dataOverTimeD3/Real';
-import Teste from '../../../components/ChartsD3/dataOverTimeD3/teste';
-import { getCommitList } from '../../../requests/getRepoList/getRepoList';
+import BarChart from '../../../components/ChartsD3/BarChart/BarChart';
+import { getAllRepoCommits, getCommitList } from '../../../requests/getRepoList/getRepoList';
 import './Commits.scss'
 
 function Commits(props) {
 
-  const [commitsOverTime, setCommitsOverTime] = useState([]);
-  const [commitsQquantity, setCommitsQquantity] = useState([]);
-  const [lineChartData, setLineChartData] = useState();
+  /* -- DATA SAMPLE
+    [
+      {y: 1, x: 'gustavo'},
+      {y: 3, x: 'jose'},
+      {y: 11, x: 'marcos'},
+      {y: 6, x: 'antonio'},
+      {y: 6, x: 'antonia'},
+      {y: 6, x: 'antonie'},
+    ]
+  */
 
-  console.log(props.data)
-  console.log()
+  const [ myData, setMyData ] = useState(
+    null
+  )
 
-  let commitsHistory = {};
+  const sortByValue = (a,b) => b.y -a.y ;
 
   useEffect(async () => {
-    let commitsResp = await getCommitList(props.data.owner.login, props.data.name);
-    setCommitsQquantity(commitsResp);
-    console.log(commitsResp)
+    let authors = [];
+    let allCommits = await getAllRepoCommits(props.data.owner.login, props.data.name);
 
-  
-    let commitsDate = commitsResp.map((item) => {
-      let commitDate = new Date(item.commit.author.date)
-      commitDate.setDate(1);
-      return commitDate;
-
+    allCommits.forEach((commit) => {
+      if(authors[commit.commit.author.name])
+        authors[commit.commit.author.name] += 1;
+      else
+        authors[commit.commit.author.name] = 1;
     });
+
+    // debugger
+
+
+    let stateFormatAll = [];
+    for(let i in authors){
+
+      stateFormatAll.push({
+        y: authors[i],
+        x: i
+      })
+    }
+
+
+  let stateFormat = stateFormatAll.sort(sortByValue).slice(0,10)
+    setMyData(stateFormat)
 
   }, []);
 
-  const data = [
-    {quantity:10, date: new Date('1980-01-10T22:51:57Z')},
-    {quantity:9, date: new Date('1980-02-11T22:51:57Z')},
-    {quantity:1, date: new Date('1980-03-11T22:51:57Z')},
-    {quantity:8, date: new Date('1980-04-11T22:51:57Z')},
-    {quantity:8, date: new Date('1980-05-11T22:51:57Z')},
-    {quantity:3, date: new Date('1980-06-11T22:51:57Z')},
-    {quantity:4, date: new Date('1980-08-11T22:51:57Z')},
-    {quantity: 1, date: new Date('1980-10-11T22:51:57Z')}
+  
 
-  ]
 
   return (
 
     <div>
-      <div className='container'>
-        {data.length > 0 ? 
-          <DatOverTimeD3 
-              data={data}
-          /> : null
+        {myData && 
+          <BarChart recivedData={myData} axesLabels={{
+            x: '',
+            y: 'Quantidade de commits por contribuidor'
+          }}/>
         }
-      </div>
-
-      
 
       
     </div>

@@ -26,7 +26,6 @@ function SearchRepos() {
     const setSearchRespData = (data) => {
         setRepoList(data.items);
         setlastPageNum(data.lastPage);
-        console.log(data)
     }
 
     const onNextPagition = () => {

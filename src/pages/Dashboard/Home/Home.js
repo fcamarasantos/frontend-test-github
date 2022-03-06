@@ -9,15 +9,12 @@ function Home(props) {
     const [lastPageNum, setLastPageNum] = useState(null);
 
     useEffect(async () => {
-        console.log(props)
         let commitsResp = await getCommitList(props.data.owner.login, props.data.name, {per_page: 50, page: actualPage}); 
         setCommitsData(commitsResp);
         setLastPageNum(commitsResp.lastPage);
-        console.log('commitsDtata', commitsResp)
     },[]);
 
     useEffect(async () => {
-        console.log(actualPage)
         let commitsResp = await getCommitList(props.data.owner.login, props.data.name, {per_page: 50, page: actualPage}); 
         setCommitsData(commitsResp);
         setLastPageNum(commitsResp.lastPage);
