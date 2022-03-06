@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import BarChart from '../../../components/ChartsD3/BarChart/BarChart';
+import LineChart from '../../../components/ChartsD3/lineChart/LineChart';
 import { getAllRepoCommits, getCommitList } from '../../../requests/getRepoList/getRepoList';
 import './Commits.scss'
 
@@ -46,13 +47,20 @@ function Commits(props) {
     }
 
 
-  let stateFormat = stateFormatAll.sort(sortByValue).slice(0,10)
+    let stateFormat = stateFormatAll.sort(sortByValue).slice(0,10)
     setMyData(stateFormat)
+    console.log(allCommits)
 
   }, []);
 
   
-
+  const LineDummyData = [
+    {x: new Date('2017-01-06T18:11:06Z'), y: 10},
+    {x: new Date('2018-02-10T18:11:06Z'), y: 9},
+    {x: new Date('2018-08-04T18:11:06Z'), y: 2},
+    {x: new Date('2020-12-30T18:11:06Z'), y: 0},
+    {x: new Date('2021-07-31T18:11:06Z'), y: 12},
+  ];
 
   return (
 
@@ -64,6 +72,7 @@ function Commits(props) {
           }}/>
         }
 
+        <LineChart dataRecived={LineDummyData}/>
       
     </div>
 
