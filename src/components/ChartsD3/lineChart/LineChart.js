@@ -12,10 +12,9 @@ function LineChart({dataRecived, ...props}) {
     const svgRef = useRef(null);
 
     const dates = dataRecived.map(item => new Date(item.x))
-    console.log(dataRecived)
-
+   
     const Xscale = scaleTime()
-        .domain(extent(dataRecived, (d) => { return new Date(d.x); }))
+        .domain([new Date(dataRecived[0].x), new Date(dataRecived[dataRecived.length - 1].x)])
         .range([0, width]);
     
 
@@ -28,39 +27,36 @@ function LineChart({dataRecived, ...props}) {
         .tickFormat(y => `${y.toFixed(1)}`)
 
     const xAxis = axisBottom(Xscale)
-        .ticks(5)
+        .ticks(13)
         .tickFormat(timeFormat("%b %Y"))
 
 
     const scaleXData = (point) => {
-        console.log(new Date(point.x))
         return Xscale(new Date(point.x));
     }
         
     const scaleYData = (point) => {
-        console.log(point)
         return Yscale(point.y);
     }
    
-    const buildAxes = () => {
-        console.log('BUILT-ACCES')
-        select(svgRef.current)
+    const buildAxes = (place) => {
+        place
             .append('g')
             .attr('class', 'line-chart-yaxis');
         
-        select(svgRef.current)
+        place
             .append('g')
             .attr('class', 'line-chart-xaxis')
+            .attr('transform', `translate(${0}, ${innerHeight})`)
     };
 
-    const buildLine = () => {
-        select(svgRef.current)
+    const buildLine = (place) => {
+        place
           .append('path')
           .attr('class', 'line-chart-line')
       };
 
     const drawAxes = () => {
-        console.log('DRAW-AXES')
         select(svgRef.current)
         .select('.line-chart-xaxis')
             .call(xAxis);
@@ -88,13 +84,29 @@ function LineChart({dataRecived, ...props}) {
         drawLine(data);
     }
 
+    const builtAll = () => {
+        select(svgRef.current)
+        .append('g')
+            .attr('class', 'outher-built')
+        .append('g')
+            .attr('class', 'inner-built')
+            .attr('transform', `translate(${outherSpace}, ${0})`)
+        
+
+        const outherBuilt = select(svgRef.current)
+            .select('.outher-built');
+        const innerBuilt = outherBuilt.select('.inner-built')
+
+        buildAxes(innerBuilt);
+        buildLine(innerBuilt);
+    }
+
     useEffect(() => {
         select(svgRef.current)
-            .attr('width', width)
+            .attr('width', width + 2 * outherSpace)
             .attr('height', height)
 
-        buildAxes();
-        buildLine();
+        builtAll()
         renderChanges(dataRecived);
     }, []);
 
