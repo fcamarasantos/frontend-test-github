@@ -75,6 +75,7 @@ function Commits(props) {
 
 
     let stateFormat = stateFormatAll.sort(sortByValue).slice(0,10)
+    console.table(stateFormat)
     setMyData(stateFormat)
 
 
@@ -109,7 +110,7 @@ function Commits(props) {
       O objetivo é distribuir as datas dos commits em datas relativas 
       e inserir a quantidade de datas reais que se aproximam das datas relativas no grph
     */
-    const quantityOfSlots = 130; // define a precisao de quantos pontos de dados existirao, os dados reais serao inseridos nesses slots (o mais proximo deles)
+    const quantityOfSlots = 100; // define a precisao de quantos pontos de dados existirao, os dados reais serao inseridos nesses slots (o mais proximo deles)
     let range = extent(realData.map(item => item.x))
     let diferenceOfDays = new Date(new Date(range[range.length - 1]).getTime() - new Date(range[0]).getTime()) /  (1000 * 3600 * 24) // define o range total de dias 
     let newDateSlots = []; // aqui serao preenchidos os dados

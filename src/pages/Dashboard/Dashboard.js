@@ -42,12 +42,12 @@ function Dashboard() {
       },
       {
         title: 'Issues', 
-        component: <Issues />, 
+        component: <Issues data={queryData}/>, 
         icon: 'error'
       },
       {
         title: 'Pull Requests', 
-        component: <PullRequests />, 
+        component: <PullRequests data={queryData}/>, 
         icon: 'move_to_inbox'
       },
     ];

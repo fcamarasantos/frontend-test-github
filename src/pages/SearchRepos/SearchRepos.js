@@ -15,7 +15,10 @@ function SearchRepos() {
         if(!inputQquery || !paginationNum) return;
 
         let repoList = await getRepoList(`${inputQquery} in:name`, {per_page: resultsPerPage, page: paginationNum});
+        console.log(repoList.items)
         setRepoList( repoList.items);
+
+        
     }, [paginationNum]);
 
     const onPaginationChange = (index) => {
