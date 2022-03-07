@@ -16,8 +16,8 @@ export const getCommitList = async (owner, repo, {per_page = 50, page=1} = {per_
             headers : headers
         }
     ) .then(async (resp) => {
+        // console.log(resp.headers.get('Link'))
         let lastPage = getNumberOfPages(resp.headers.get('link'));
-
         let data = await resp.json();
         data.lastPage = lastPage;
         return data;
@@ -60,11 +60,9 @@ export const getAllRepoCommits = async (owner, repo) => {
             for(let i = 1; i <= lastPage; i++){
                 pageCount.push(i)
             }
-
-
         let allCommits = Promise.all(pageCount.map(async (elem) => {
             // console.log(owner, repo, {per_page: per_page, page: elem.pageCount})
-            let a = await  getCommitList(owner, repo, {per_page: per_page, page: elem.pageCount})
+            let a = await  getCommitList(owner, repo, {per_page: per_page, page: elem})
             return a
         }
         )).then((resp) => {

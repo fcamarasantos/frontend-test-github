@@ -26,9 +26,33 @@ function Commits(props) {
 
   const sortByValue = (a,b) => b.y -a.y ;
 
+  const sortByDate = (a,b) => {
+    return new Date(b.x).getTime() - new Date(a.x).getTime();
+  }
+
   useEffect(async () => {
     let authors = [];
     let allCommits = await getAllRepoCommits(props.data.owner.login, props.data.name);
+
+    let commitDate = [];
+    for(let i = 0; i < allCommits.length; i++){
+      let item = allCommits[i]
+      commitDate.push({
+        x: new Date(item.commit.author.date), 
+        y: 1
+      })
+
+    }
+
+    commitDate.sort(sortByDate);  
+    commitDate.push({
+      x: new Date(new Date(commitDate[commitDate.length - 1].x).getTime() - (1000 * 3600 * 24 * 7)),
+      y: 0
+    })
+
+    
+
+    handleTimeRange(commitDate)
 
     allCommits.forEach((commit) => {
       if(authors[commit.commit.author.name])
@@ -52,73 +76,81 @@ function Commits(props) {
 
     let stateFormat = stateFormatAll.sort(sortByValue).slice(0,10)
     setMyData(stateFormat)
-    console.log(allCommits)
+
 
   }, []);
 
   const handleTimeRange = (realData) => {
-    // new Date(new Date('2021-01-06T18:11:06Z').getTime() - new Date('2020-11-31T18:11:06Z').getTime()) /  (1000 * 3600 * 24)
-    const quantityOfSlots = 7;
+    /* 
+      Funcao responsavel por receber dados no seguinte formato:
+      [
+        {x: new Date('2021-01-01T18:11:06Z'), y: 1},
+        {x: new Date('2021-02-06T18:11:06Z'), y: 1},
+        .
+        .
+        .
+      ]
+
+      e inserir no estado os mesmos dados no seguinte formato:
+      [
+          {
+              "x": "2021-01-01T18:11:06.000Z",
+              "y": 1
+          },
+          {
+              "x": "2021-03-03T14:45:23.142Z",
+              "y": 2
+          },
+          .
+          .
+          .
+      ]
+
+      O objetivo é distribuir as datas dos commits em datas relativas 
+      e inserir a quantidade de datas reais que se aproximam das datas relativas no grph
+    */
+    const quantityOfSlots = 130; // define a precisao de quantos pontos de dados existirao, os dados reais serao inseridos nesses slots (o mais proximo deles)
     let range = extent(realData.map(item => item.x))
-    let diferenceOfDays = new Date(new Date(range[range.length - 1]).getTime() - new Date(range[0]).getTime()) /  (1000 * 3600 * 24)
-    let processedData = [];
-    let newDates = [];
+    let diferenceOfDays = new Date(new Date(range[range.length - 1]).getTime() - new Date(range[0]).getTime()) /  (1000 * 3600 * 24) // define o range total de dias 
+    let newDateSlots = []; // aqui serao preenchidos os dados
+
     for(let i = 0; i < quantityOfSlots; i++){
-      newDates.push(
-        new Date(new Date(range[0] ).getTime() + new Date(+ i*diferenceOfDays * (1000 * 3600 * 24)/quantityOfSlots).getTime()) ,
-      )
+      // para cada slot, insira uma data que corresponda a sua posicao no array + a quantidade de tempo/dias que foi definido em cima da precisao
+      newDateSlots.push({
+          x: new Date(new Date(range[0] ).getTime() + new Date(+ i*diferenceOfDays * (1000 * 3600 * 24)/quantityOfSlots).getTime()),
+          y: 0
+        });
     }
 
-    for(let i = 0; i < realData.length; i++){
-      let bestApproach = null;
-      let bestDiference = null
-      for(let c = 0; c < newDates.length; c++){
+    for(let i = 0; i < realData.length; i++){ // encontrar qual é a data virtual mais proxima a data real
+      let bestDiference = null;
+      let thisPostion = null;
+    
+      for(let c = 0; c < newDateSlots.length; c++){
         if(c == 0) { // se for a primeira vez, guarda algo para efetuar comparacao
-          bestDiference = Math.abs(new Date(realData[i].x).getTime() - new Date(newDates[c]).getTime())
-          bestApproach = new Date(newDates[c])
+          bestDiference = Math.abs(new Date(realData[i].x).getTime() - new Date(newDateSlots[c].x).getTime())
+          thisPostion = c;
         }
         else{
-          if(bestDiference > Math.abs(new Date(realData[i].x).getTime() - new Date(newDates[c]).getTime())){
-            bestDiference = Math.abs(new Date(realData[i].x).getTime() - new Date(newDates[c]).getTime());
-            bestApproach = new Date(newDates[c])
+          if(bestDiference > Math.abs(new Date(realData[i].x).getTime() - new Date(newDateSlots[c].x).getTime())){
+            bestDiference = Math.abs(new Date(realData[i].x).getTime() - new Date(newDateSlots[c].x).getTime());
+            thisPostion = c;
           }
          
         }
       
       }
 
-      let existisIn = null;
-      for(let j = 0; j < processedData.length; j++){
-        if(new Date(processedData[j].x).getTime() == new Date(bestApproach).getTime()){
-          existisIn = j;
-          console.log(j)
-        }
-        // debugger
-      }
-
-      if(existisIn){
-        processedData[existisIn] = {
-          ...processedData[existisIn],
-          y: processedData[existisIn].y += realData[i].y
-        };
-      }
-      else{
-        processedData.push({
-          x: bestApproach,
-          y: realData[i].y
-        });
-      }
-
-      
+      if(!thisPostion) continue;
+      newDateSlots[thisPostion] = { // insere na posicao que ele melhor encontrou, a data real
+        ...newDateSlots[thisPostion],
+        y: newDateSlots[thisPostion].y += realData[i].y
+      };
     }
 
-    console.groupCollapsed('dates')
-    // console.table(newDates)
-    // console.table(realData)
-    console.table(processedData)
-    console.groupEnd('dates')
+    // console.table(newDateSlots)
 
-    setFrequncyProcessedData(processedData)
+    setFrequncyProcessedData(newDateSlots)
 
   }
 
@@ -158,7 +190,7 @@ function Commits(props) {
 
 
   useEffect(() => {
-    handleTimeRange(LineDummyData)
+    // handleTimeRange(LineDummyData)
   }, [])
 
   return (

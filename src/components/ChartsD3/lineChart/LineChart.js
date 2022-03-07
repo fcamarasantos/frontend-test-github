@@ -4,7 +4,7 @@ import React, { useEffect, useRef } from 'react'
 // import { dateFormat } from '../d3Config';
 
 function LineChart({dataRecived, ...props}) {
-    const width = 500;
+    const width = 800;
     const height = 500;
     const outherSpace = 70;
     const innerHeight = height - (2*outherSpace) ;
@@ -14,7 +14,7 @@ function LineChart({dataRecived, ...props}) {
     const dates = dataRecived.map(item => new Date(item.x))
    
     const Xscale = scaleTime()
-        .domain([new Date(dataRecived[0].x), new Date(dataRecived[dataRecived.length - 1].x)])
+        .domain(extent(dataRecived.map(item => new Date(item.x))))
         .range([0, width]);
     
 
@@ -27,7 +27,7 @@ function LineChart({dataRecived, ...props}) {
         .tickFormat(y => `${y.toFixed(1)}`)
 
     const xAxis = axisBottom(Xscale)
-        .ticks(13)
+        .ticks(5)
         .tickFormat(timeFormat("%b %Y"))
 
 
