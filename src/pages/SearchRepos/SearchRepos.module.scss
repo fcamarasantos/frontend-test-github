@@ -1,11 +1,11 @@
 @import "../../sass-variables/variables.scss";
 
-.searchRepos-page{
+.searchReposPage{
     background-color: #fafafa;
     align-self: center;
     margin: auto 0;
 
-    .top-titles *{
+    .topTitles *{
         color: #202020;
         display: flex;
         flex-direction: column;
@@ -30,13 +30,13 @@
         }
     }
 
-    .repo-list-row{
+    .repoListRow{
         display: flex;
         flex-wrap: wrap;
         justify-content: center;
     }
 
-    .my-profile-card-col{
+    .myProfileCardCol{
         margin: 0 !important;
         margin-top: 20px !important;
         

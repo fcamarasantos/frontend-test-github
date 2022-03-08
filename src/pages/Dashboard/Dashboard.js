@@ -6,7 +6,7 @@ import Commits from './Commits/Commits'
 import Home from './Home/Home'
 import Issues from './Issues/Issues'
 import PullRequests from './PullRequests/PullRequests'
-import './Dashboard.scss';
+import classes from './Dashboard.module.scss';
 
 function Dashboard() {
     const location = useLocation()
@@ -59,12 +59,12 @@ function Dashboard() {
     }
 
   return (
-    <div className='Dashboard-container'>
+    <div className={classes.container}>
         <Sidebar triggerID={'slide-out'} tabs={tabs} navItemClicked={navItemClicked}/>
         {queryData && (
           <header className='container'>
-            <h1 className='repositiory-name'>Repositório: {queryData.name}</h1>
-            <p className='owner-name'>Proprietário: {queryData.owner.login}</p>
+            <h1 className={classes.repositioryName}>Repositório: {queryData.name}</h1>
+            <p className={classes.ownerName}>Proprietário: {queryData.owner.login}</p>
           </header>
         )}
         <main>

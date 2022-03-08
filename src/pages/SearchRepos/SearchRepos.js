@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
+import MyPagination from '../../components/myPagination/MyPagination';
 import ProfileCard from '../../components/ProfileCard/ProfileCard';
 import SearchBarRepos from '../../components/SearchBarRepos/SearchBarRepos';
 import { getRepoList } from '../../requests/getRepoList/getRepoList';
-import './SearchRepos.scss';
+import classes from './SearchRepos.module.scss';
 
 function SearchRepos() {
     const [repoList, setRepoList] = useState([]);
@@ -21,59 +22,30 @@ function SearchRepos() {
         
     }, [paginationNum]);
 
-    const onPaginationChange = (index) => {
-        setPaginationNum(index);
-    }
-
-
     const setSearchRespData = (data) => {
         setRepoList(data.items);
         setlastPageNum(data.lastPage);
     }
 
-    const onNextPagition = () => {
-        setPaginationNum(prev => {
-           let newNum = prev;
-            if(newNum + 1 <= lastPageNum) newNum++;
-
-            return newNum;
-        })
-    }
-    const onLastPagition = () => {
-        setPaginationNum(prev => {
-            let newNum = prev;
-             if(newNum - 1 > 0) newNum-=1;
- 
-             return newNum;
-         })
-    }
 
     const setInputqueryHandler = (query) => {
         setInputquery(query)    
     }
 
-    let paginationIndexes = [];
-    for(let i =0; i < lastPageNum; i++){
-        let itemPageNum = i + 1;
-        paginationIndexes.push(
-            <li key={i} className={`waves-effect ${itemPageNum==paginationNum ? 'active' : ''}`} onClick={() => {onPaginationChange(itemPageNum)}}><a className='like-a' href='#'>{itemPageNum}</a></li>
-        )
-    }
-
   return (
-    <div className='searchRepos-page'>
+    <div className={classes.searchReposPage}>
         <header>
-            <div className='top-titles'>
+            <div className={classes.topTitles}>
                 <h1>Encontre um repositório </h1>
-                <p className='subtitle'>Insira o nome do repositório desejado. Por exemplo: 'vue', 'react' ...</p>
+                <p className={classes.subtitle}>Insira o nome do repositório desejado. Por exemplo: 'vue', 'react' ...</p>
             </div>
 
             <SearchBarRepos setReposData={setSearchRespData} setInputquery={setInputqueryHandler} resultsQuantity={resultsPerPage}/>
 
             <div className='container'>
-                <div className='row repo-list-row'>
+                <div className={['row', classes.repoListRow].join(' ')}>
                     {repoList ? repoList.map((item) => (
-                        <div className='col s6 m4 my-profile-card-col' key={item.id}>
+                        <div className={['col s6 m4', classes.myProfileCardCol].join(' ')} key={item.id}>
                             <ProfileCard 
                                 title={item.name}
                                 subtitle={item.owner.login}
@@ -89,18 +61,9 @@ function SearchRepos() {
                 </div>
             </div>
         </header>
-        <div className='container'>
-            <div className='row'>
-                <div className='col'>
-                    <ul className="pagination">
-                        <li className={`${paginationNum <= 1 ? 'disabled' : ''}`}><a href="#!" onClick={onLastPagition}><i className="material-icons">chevron_left</i></a></li>
-                        {paginationIndexes}
-                        <li className={`waves-effect ${paginationNum >= lastPageNum ? 'disabled' : ''}`} ><a href="#" onClick={onNextPagition}><i className="material-icons">chevron_right</i></a></li>
-                    </ul>
-                </div>
-            </div>
-            
-        </div>
+        {lastPageNum &&
+            <MyPagination range={[1, lastPageNum]} actualPage={paginationNum} onChange={setPaginationNum}/>
+        }
     </div>
   )
 }

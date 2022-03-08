@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import BarChart from '../../../components/ChartsD3/BarChart/BarChart';
+import DataTable from '../../../components/DataTable/DataTable';
+import MyPagination from '../../../components/myPagination/MyPagination';
 import { getAllRepoPullRequests, getPullRequestList } from '../../../requests/getRepoList/getRepoList';
 import classes from './PullRequests.module.scss';
 
@@ -9,11 +11,14 @@ function PullRequests (props)   {
   const [allPulls, setAllPulls] = useState(null);
   const [pagination, setPagination] = useState(1);
   const [pullInPage, setPullInpage] = useState(null);
-  const [paginationIndexes, setPaginationIndexes] = useState([]);
+  const [tableInfo, setTableInfo] = useState(null);
 
   const [graphData, setGraphData] = useState();
 
   useEffect(async () => {
+   
+
+
     let allPulls = await getAllRepoPullRequests(props.data.owner.login, props.data.name);
     setAllPulls(allPulls)
 
@@ -53,7 +58,14 @@ function PullRequests (props)   {
     }
     arrangeGraphData();
 
+  
+
   }, []);
+
+  useEffect(() => {
+    console.log(pullInPage)
+    // debugger
+  });
 
   useEffect(() => {
     const per_page = 50;
@@ -65,101 +77,63 @@ function PullRequests (props)   {
         if(index % per_page == 0)
           distributedPulls.push([])
 
-          // debugger
         distributedPulls[distributedPulls.length - 1].push(item);
       });
+  
+      setPullInpage(distributedPulls);
 
-      let indexes = []
-      for(let i =0; i < distributedPulls.length ; i++){
-        let itemPageNum = i + 1;
-        indexes.push(
-            <li key={i} className={`waves-effect ${itemPageNum==pagination ? 'active' : ''}`} onClick={() => {onPaginationChange(itemPageNum)}}><a className='like-a' href='#'>{itemPageNum}</a></li>
-        )
-      }
+      let tableFormat = distributedPulls[pagination - 1].map((item) => {
+        let date = new Date(item.updated_at);
+        return([
+                item.user.login,
+                item.title,
+                <a href={item.html_url} >Consultar</a>,
+                `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
+              ])
+      });
 
-      setPaginationIndexes(indexes);
-    
+      setTableInfo(tableFormat);
 
     }
-    setPullInpage(distributedPulls);
+
 
   }, [allPulls])
-
-  const onPaginationChange = (page) => {
-    setPagination(page)
-  }
-
-    const verifyPageNum = (pageNum) => {
-        return (pageNum >= 1 && pageNum <= pullInPage.length - 1);
-    }
-
-    const onBeforePagition = () => {
-        setPagination(prev => {
-            if(verifyPageNum(prev -1)) return prev -1;
-            else return prev;
-        });
-    }
-    const onNextPagition = () => {
-      setPagination(prev => {
-            if(verifyPageNum(+prev +1)) return +prev +1;
-            else return +prev;
-        });
-    }
-
   return (
     <div className={classes.pullRequestsContainer}>
-      
-      <div className={[classes.container, 'container'].join(' ')}>
-        <div className={classes.tableSide}>
-          <table>
-            <thead>
-            </thead>
-          <tbody>
-            {pullInPage && pullInPage[pagination - 1] && pullInPage[pagination - 1].map((item) => {
-              let date = new Date(item.created_at);
-              return(
-                <tr key={item.id}>
-                          <td>{item.user.login}</td>
-                          <td>{item.title}</td>
-                          <td>{`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}</td>
-                      </tr>
-                  )
-                })}
-          </tbody>
-          </table>
-        </div>  
-        <div className={classes.graphSide}>
+        <div className={classes.content}>
           {graphData &&
                 <BarChart recivedData={graphData} axesLabels={{
                   x: '',
                   y: 'Distribuição de pull requests'
                 }}/>
-              }
-        </div>  
+            }
+        <span>
+          <p className={classes.tableTitle}>Tabela de Pull requests</p>
+          {tableInfo ?
+            <DataTable head={['Autor', 'Descrição', 'Acesso em', 'Atualizado em']} data={tableInfo}/>
+          :
+  
+              (<div className="preloader-wrapper big active">
+              <div className="spinner-layer spinner-blue-only">
+                <div className="circle-clipper left">
+                  <div className="circle"></div>
+                </div><div className="gap-patch">
+                  <div className="circle"></div>
+                </div><div className="circle-clipper right">
+                  <div className="circle"></div>
+                </div>
+              </div>
+            </div>)
+          }
 
 
-        
+
+        </span>
+
       </div>
-
-                
-      <div className='row'>
-            <div className='col'>
-                <ul className="pagination">
-                  {paginationIndexes && pullInPage && (
-                    <>
-                      <li className={`${pagination <= 1 ? 'disabled' : ''}`}><a href="#" onClick={onBeforePagition}><i className="material-icons">chevron_left</i></a></li>
-                      {pullInPage.map((item, i) => {
-                        let itemPageNum = i + 1;
-                        return (
-                          <li key={i} className={`waves-effect ${itemPageNum==pagination ? 'active' : ''}`} onClick={() => {onPaginationChange(itemPageNum)}}><a className='like-a' href='#'>{itemPageNum}</a></li>
-                        )
-                      })}
-                      <li className={`waves-effect ${pagination >= pullInPage.length - 1 ? 'disabled' : ''}`} ><a href="#" onClick={onNextPagition}><i className="material-icons">chevron_right</i></a></li>
-                    </>
-                  )}
-                </ul>
-            </div>
-        </div>
+        {pullInPage &&
+          <MyPagination onChange={setPagination} range={[1  , (pullInPage.length - 1)]} actualPage={pagination}/>
+        }
     </div>
 
     

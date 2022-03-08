@@ -2,10 +2,11 @@ import React, { useEffect } from 'react'
 
 function DataTable({data, head, ...props}) {
     /* dataFormat:
-        data = [ * as keys do primeiro obj serao utilizadas commo base para toda a table ***
-            {title: 'baba', title2: 'sdssd'  ... }
-            {title1: 'baba', title2: 'sdssd' ... }
-            {title1: 'baba', title2: 'sdssd' ... }
+        data = [ 
+            ['baba', 'sdssd' , ... ]
+            ['baba', 'sdssd' , ... ]
+            ['baba', 'sdssd' , ... ]
+            ['baba', 'sdssd' , ... ]
             .
             .
             .

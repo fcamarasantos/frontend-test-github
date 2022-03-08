@@ -1,70 +1,33 @@
-# Getting Started with Create React App
+# Gerenciador de Repositórios
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
+- Pesquisar
+![](/frontend-test-github/readme/list.png)
+- Commits
+![](/frontend-test-github/readme/commits.png)
+- Issues
+![](/frontend-test-github/readme/issues.png)
+- Pull Requests
+![](/frontend-test-github/readme/pulls.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### E6 FEATURES
+  * Promisses -> utilizado o método Promisse.all([]) a fim de realizar múltiplas requesições à API de forma mais performática, uma vez que cada requisição fica em um item do array.
+  * Rest constructors  -> para descontruir todas as propriedades internas de um obeto ou array, utilizado para atulizar um estado anterior, matendo todas as ultimas alterações e para receber várias props num component. Sua forma inversa é aplicada para receber: [state, setState] = useState(null)
+  * Arrow Funcitions -> uilizado de costume no projeto, mas em casos de uso de classes, ela pode auxiliar na usabilidade do  'this' da classe.
+  * LET -> Muito utilizado o let para manter a variável no scopo (em projetos grandes isso faz uma enorme diferença)
+  * CONST -> Utilizado o CONST, que funciona como o let, porém é constante, usado para receber valores de requisição e para a criação de estado
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Ferrmentas utilizadas:
+* React.JS
+* Materialize
+* D3.js
+* Sass e Sass (modules)
+* github-api
+* Vercel Hosting
 
-### `npm test`
+## Link para o projeto
+[https://frontend-test-github.vercel.app/](https://frontend-test-github.vercel.app/)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+![](/frontend-test-github/readme/all.png)

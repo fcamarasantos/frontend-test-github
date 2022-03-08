@@ -149,50 +149,10 @@ function Commits(props) {
       };
     }
 
-    // console.table(newDateSlots)
 
     setFrequncyProcessedData(newDateSlots)
 
   }
-
-  
-  const LineDummyData = [
-    {x: new Date('2021-01-01T18:11:06Z'), y: 1},
-
-    {x: new Date('2021-02-06T18:11:06Z'), y: 1},
-    {x: new Date('2021-03-06T18:11:06Z'), y: 1},
-
-    {x: new Date('2021-04-30T18:11:06Z'), y: 1},
-    {x: new Date('2021-05-20T18:11:06Z'), y: 1},
-    {x: new Date('2021-05-21T18:11:06Z'), y: 1},
-    {x: new Date('2021-05-22T18:11:06Z'), y: 1},
-    {x: new Date('2021-05-23T18:11:06Z'), y: 1},
-
-    {x: new Date('2021-06-31T18:11:06Z'), y: 1},
-    {x: new Date('2021-07-31T18:11:06Z'), y: 1},
-    {x: new Date('2021-07-01T18:11:06Z'), y: 1},
-    {x: new Date('2021-07-02T18:11:06Z'), y: 1},
-    {x: new Date('2021-07-03T18:11:06Z'), y: 1},
-    {x: new Date('2021-07-04T18:11:06Z'), y: 1},
-    {x: new Date('2021-07-05T18:11:06Z'), y: 1},
-    {x: new Date('2021-07-06T18:11:06Z'), y: 1},
-
-    {x: new Date('2021-08-31T18:11:06Z'), y: 1},
-    {x: new Date('2021-09-31T18:11:06Z'), y: 1},
-
-    {x: new Date('2021-10-31T18:11:06Z'), y: 1},
-    {x: new Date('2021-11-31T18:11:06Z'), y: 1},
-
-    {x: new Date('2021-12-31T18:11:06Z'), y: 1},
-    {x: new Date('2022-01-31T18:11:06Z'), y: 1},
-    {x: new Date('2022-02-31T18:11:06Z'), y: 1},
-  ];
-
-
-
-  useEffect(() => {
-    // handleTimeRange(LineDummyData)
-  }, [])
 
   return (
 
@@ -204,8 +164,20 @@ function Commits(props) {
           }}/>
         }
 
-        {frequncyProcessedData && 
+        {frequncyProcessedData ?
           <LineChart className={classes.lineChart} dataRecived={frequncyProcessedData}/>
+        :
+            (<div className="preloader-wrapper big active">
+            <div className="spinner-layer spinner-blue-only">
+              <div className="circle-clipper left">
+                <div className="circle"></div>
+              </div><div className="gap-patch">
+                <div className="circle"></div>
+              </div><div className="circle-clipper right">
+                <div className="circle"></div>
+              </div>
+            </div>
+          </div>)
         }
       
     </div>

@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react'
-import clases from './MyPagination.module.scss'
+import React, { useEffect, useRef, useState } from 'react'
+import classes from './MyPagination.module.scss'
 
 function MyPagination({onChange, range, actualPage,  ...props}) {
-
     const [paginationIndexes, setPaginationIndexes] = useState(null);
 
     const checkChangedPage = (index) => {
-        return (index >= range[0] && index < range[1])
+        return (index >= range[0] && index <= range[1])
     }
 
     const onPaginationChange = (index) => {
@@ -19,27 +18,52 @@ function MyPagination({onChange, range, actualPage,  ...props}) {
             onChange(actualPage + 1)
     }
     const onLastPagition = () => {
-        if(checkChangedPage(actualPage + 1))
+        if(checkChangedPage(actualPage - 1))
             onChange(actualPage - 1)
     }
 
     useEffect(() => {
         const list = [];
-
-        for(let i = range[0]; i < range[1]; i++){
+        const PAGES_ITEMS_QUANT = 12;
+        for(let i = actualPage - Math.round(PAGES_ITEMS_QUANT / 2); (i <= actualPage + Math.round(PAGES_ITEMS_QUANT / 2)); i++){
+            if(!checkChangedPage(i)) continue
             list.push(  
-                <li key={i} className={`waves-effect ${i==actualPage ? 'active' : ''}`} 
+                <li key={i} className={` ${ i==actualPage ? 'active' : ''}`} 
                     onClick={() => {onPaginationChange(i)}}>
                     <a className='like-a' href='#'>{i}</a>
                 </li>
             )
         }
 
-        setPaginationIndexes(list)
-    }, []);
+        if(actualPage - Math.round(PAGES_ITEMS_QUANT / 2) > range[0] ){
+            list.unshift(
+                <li key={'aa'}>
+                    <div className={classes.middleDotsContainer}>
+                        <div className={classes.middleDots}> </div>
+                        <div className={classes.middleDots}> </div>
+                        <div className={classes.middleDots}> </div>
+                    </div>
+                </li>
+            )
+
+        }
+
+        if(actualPage + Math.round(PAGES_ITEMS_QUANT / 2) < range[1] ){
+            list.push(
+                <li key={'asas'}>
+                    <div className={classes.middleDotsContainer}>
+                        <div className={classes.middleDots}> </div>
+                        <div className={classes.middleDots}> </div>
+                        <div className={classes.middleDots}> </div>
+                    </div>
+            </li>
+            )
+        }
+        setPaginationIndexes(list);
+    }, [!paginationIndexes, actualPage]);
 
   return (
-    <div className='container'>
+    <div className={classes.paginationContainer}>
         <div className='row'>
             <div className='col'>
                 <ul className="pagination">

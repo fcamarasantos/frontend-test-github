@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import PieChart from '../../../components/ChartsD3/PieChart/PieChart'
 import DataTable from '../../../components/DataTable/DataTable';
 import MyPagination from '../../../components/myPagination/MyPagination';
@@ -9,14 +9,10 @@ function Issues(props) {
 
   const [issuesGraphInfo, setIssuesGraphInfo] = useState(null);
   const [pageNum, setPageNum] = useState(1);
+  const [lastPageNum, setLastPageNum] = useState(null);
   const [tableData, setTableData] = useState(null);
 
-
-  // const data = [
-  //   {value: 15, index: 1, label: 'aaaa'},
-  //   {value: 15, index: 2, label: 'bbbbbb'},
-  //   {value: 15, index: 3, label: 'ccccccc'},
-  // ];
+  const per_page = 30;
   
   useEffect(async () => {
     const queryClosed = `repo:${props.data.owner.login}/${props.data.name} type:issue state:closed`;
@@ -36,12 +32,12 @@ function Issues(props) {
   }, []);
 
   useEffect(async () => {
-    const issuesData = await getRepoIssues(props.data.owner.login, props.data.name, {page: pageNum, per_page: 30})
+    const issuesData = await getRepoIssues(props.data.owner.login, props.data.name, {page: pageNum, per_page: per_page})
+    if(!lastPageNum)
+      setLastPageNum(issuesData.lastPage);
 
     let listOfIssues = [];
     listOfIssues = issuesData.filter(item => !item.pull_request);
-
-    console.log(listOfIssues)
 
     const stateFormat = listOfIssues.map((item) => {
       let date = new Date(item.updated_at);
@@ -56,7 +52,6 @@ function Issues(props) {
   }, [pageNum]);
 
   const paginationHandler = (i) => {
-    console.log(i)
     setPageNum(i)
   }
 
@@ -67,15 +62,29 @@ function Issues(props) {
         {issuesGraphInfo &&
           <PieChart recivedData={issuesGraphInfo}/>
         }
-
-        {tableData &&
-          <DataTable head={['Autor', 'Titulo', 'Acesso em', 'Atualizado em']} data={tableData}/>
-        
-        }
+        <span>
+          <p className={classes.tableTitle}>Tabela de Issues</p>
+          {tableData ?
+            <DataTable head={['Autor', 'Titulo', 'Acesso em', 'Atualizado em']} data={tableData}/>
+          :
+            (<div className="preloader-wrapper big active">
+            <div className="spinner-layer spinner-blue-only">
+              <div className="circle-clipper left">
+                <div className="circle"></div>
+              </div><div className="gap-patch">
+                <div className="circle"></div>
+              </div><div className="circle-clipper right">
+                <div className="circle"></div>
+              </div>
+            </div>
+          </div>)
+          }
+        </span>
       </div>
       
-
-      <MyPagination onChange={paginationHandler} range={[1,5]} actualPage={1}/>
+        {lastPageNum &&
+          <MyPagination onChange={paginationHandler} range={[1  , lastPageNum]} actualPage={pageNum}/>
+        }
     </div>
   )
 }

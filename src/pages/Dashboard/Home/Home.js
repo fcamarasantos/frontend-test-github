@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
+import DataTable from '../../../components/DataTable/DataTable';
+import MyPagination from '../../../components/myPagination/MyPagination';
 import { getCommitList } from '../../../requests/getRepoList/getRepoList';
-import './Home.scss'
+import classes from './Home.module.scss'
 
 function Home(props) {
 
@@ -8,85 +10,55 @@ function Home(props) {
     const [actualPage, setActualPage] = useState(1);
     const [lastPageNum, setLastPageNum] = useState(null);
 
-    useEffect(async () => {
+    const requestCommits =async () => {
         let commitsResp = await getCommitList(props.data.owner.login, props.data.name, {per_page: 50, page: actualPage}); 
-        setCommitsData(commitsResp);
+
+        let stateFormat = commitsResp.map(item => {
+            let date =  new Date(item.commit.author.date);
+            let message = item.commit.message
+            message = message.length > 50 ? message.slice(0,50) + ' ...' : message
+            return [
+                item.commit.author.name,
+                message,
+                <a href={item.html_url}>Consultar</a>,
+                `${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`
+            ]
+        });
+        setCommitsData(stateFormat);
         setLastPageNum(commitsResp.lastPage);
+    }
+
+    useEffect(async () => {
+        requestCommits();
     },[]);
 
     useEffect(async () => {
-        let commitsResp = await getCommitList(props.data.owner.login, props.data.name, {per_page: 50, page: actualPage}); 
-        setCommitsData(commitsResp);
-        setLastPageNum(commitsResp.lastPage);
+        requestCommits();
     }, [actualPage]);
 
-    const verifyPageNum = (pageNum) => {
-        return (pageNum >= 1 && pageNum <= lastPageNum);
-    }
-
-    const onPaginationChange = (pageNum) => {
-        verifyPageNum(pageNum)
-            setActualPage(pageNum)
-    }
-
-    const onBeforePagition = () => {
-        setActualPage(prev => {
-            if(verifyPageNum(prev -1)) return prev -1;
-            else return prev;
-        });
-    }
-    const onNextPagition = () => {
-        setActualPage(prev => {
-            if(verifyPageNum(+prev +1)) return +prev +1;
-            else return +prev;
-        });
-    }
-
-    let paginationIndexes = [];
-    for(let i =0; i < lastPageNum; i++){
-        let itemPageNum = i + 1;
-        paginationIndexes.push(
-            <li key={i} className={`waves-effect ${itemPageNum==actualPage ? 'active' : ''}`} onClick={() => {onPaginationChange(itemPageNum)}}><a className='like-a' href='#'>{itemPageNum}</a></li>
-        )
-    }
-
   return (
-    <div className='HomeContainer container'>
-        <p className='table-title'>Tabela de commits</p>
-        <table>
-        <thead>
-          <tr>
-              <th>Autor</th>
-              <th>Descrição</th>
-              <th>Data</th>
-          </tr>
-        </thead>
-        <tbody>
-            {commitsData && commitsData.map((item) => { 
-                let date = new Date(item.commit.author.date);
-                return(
-                    <tr key={item.sha}>
-                        <td>{item.commit.author.name}</td>
-                        <td>{item.commit.message}</td>
-                        <td>{`${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}</td>
-                    </tr>
-            )})}
-         
-        </tbody>
-      </table>
-      <div className='container'>
-          
-        <div className='row'>
-            <div className='col'>
-                <ul className="pagination">
-                    <li className={`${actualPage <= 1 ? 'disabled' : ''}`}><a href="#" onClick={onBeforePagition}><i className="material-icons">chevron_left</i></a></li>
-                    {paginationIndexes}
-                    <li className={`waves-effect ${actualPage >= lastPageNum ? 'disabled' : ''}`} ><a href="#" onClick={onNextPagition}><i className="material-icons">chevron_right</i></a></li>
-                </ul>
+    <div className={classes.HomeContainer}>
+        <p className={classes.tableTitle}>Tabela de commits</p>
+        {commitsData ?
+          <DataTable head={['Autor', 'Descrição', 'Acesso em', 'Atualizado em']} data={commitsData}/>
+          :
+  
+          (<div className="preloader-wrapper big active">
+          <div className="spinner-layer spinner-blue-only">
+            <div className="circle-clipper left">
+              <div className="circle"></div>
+            </div><div className="gap-patch">
+              <div className="circle"></div>
+            </div><div className="circle-clipper right">
+              <div className="circle"></div>
             </div>
-        </div>
+          </div>
+        </div>)
+        }
         
-      </div>
+      {lastPageNum &&
+        <MyPagination range={[1, lastPageNum]} actualPage={actualPage} onChange={setActualPage}/>
+      }
     </div>
   )
 }

@@ -1,0 +1,20 @@
+.paginationContainer{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .middleDotsContainer{
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        height: 100%;
+        .middleDots{
+            $radius: 5px;
+            height: $radius;
+            width: $radius;
+            background-color: black;
+            border-radius: 50%;
+        }
+    
+    }
+}
