@@ -4,19 +4,14 @@ import React, { useRef, useEffect } from 'react'
 import './PieChart.scss';
 
 function PieChart({recivedData, ...props}) {
+  const outerRadius = 100;
+  const innerRadius = 10;
 
-    const height = 500;
-    const width = 500;
-
-    const outerRadius = 100;
-    const innerRadius = 10;
+    const height = 200;
+    const width = 200;
 
     const svgRef = useRef(null);
-    
-      const margin = {
-        top: 50, right: 50, bottom: 50, left: 50,
-      };
-    
+  
       const colorScale = scaleOrdinal()
       .domain(["Lorem ipsum", "dolor sit", "amet", "consectetur", "adipisicing", "elit", "sed", "do", "eiusmod", "tempor", "incididunt"])
       .range(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);

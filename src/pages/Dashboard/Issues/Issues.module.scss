@@ -1,0 +1,9 @@
+.IssuesConatainer{
+    display: flex;
+    flex-direction: column;
+    padding:  0 40px;
+    .mainContent{
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
