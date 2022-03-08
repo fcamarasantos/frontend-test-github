@@ -138,3 +138,28 @@ export const getAllRepoPullRequests = async (owner, repo) => {
   
 }
 
+export const getRepoIssues = async (owner, repo, {per_page = 50, page=1} = {per_page : 50, page:1}) => {
+    return fetch(`https://api.github.com/repos/${owner}/${repo}/issues?per_page=${per_page}&page=${page}&state=all`, {
+        headers: headers
+    }).then(async (resp) => {
+        let lastPage = getNumberOfPages(resp.headers.get('link'));
+        let data = await resp.json();
+        data.lastPage = lastPage;
+        return data;
+    }).then(
+        (resp) => {
+            return resp
+        }
+    );
+}
+
+export const getNumOfOpenClosedIssues = async  (query) => {
+    return fetch(`https://api.github.com/search/issues?q=${query}&per_page=${1}&page=${1}`, {
+        'headers': headers
+    }).then(async resp => {
+        let data = await resp.json();
+        return data
+    }).then(resp => {
+        return resp
+    });
+}
