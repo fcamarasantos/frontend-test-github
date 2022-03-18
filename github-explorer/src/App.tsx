@@ -1,17 +1,16 @@
-import { Header } from "./components/Header";
-import { Search } from "./components/Search";
-import { GlobalStyle } from "./styles/global";
-import {BrowserRouter as Router} from 'react-router-dom';
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
-import {MainRoutes} from './routes';
+import GlobalStyle from './styles/global';
+import Routes from './routes';
 
 export function App() {
   return (
-    <Router>
-      <Header />
-      <Search />
-      <MainRoutes />
+    <>
+      <BrowserRouter>
+       <Routes />
+      </BrowserRouter>
       <GlobalStyle />
-    </Router>
+    </>
   );
 }
